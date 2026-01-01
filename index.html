@@ -48,13 +48,8 @@ body{
   text-align:center;
   color:#fff;
 }
-.header h1{
-  font-size:18px;
-  margin:0;
-}
-.header small{
-  opacity:.9;
-}
+.header h1{font-size:18px;margin:0}
+.header small{opacity:.9}
 .toolbar{
   display:flex;
   gap:8px;
@@ -103,9 +98,7 @@ body.light .toolbar button{
   padding:10px;
   border-top:1px solid rgba(255,255,255,.08);
 }
-body.light .inputbar{
-  border-top:1px solid #e5e7eb;
-}
+body.light .inputbar{border-top:1px solid #e5e7eb}
 .inputbar input{
   flex:1;
   padding:10px 12px;
@@ -169,6 +162,11 @@ function addMsg(text, cls){
   chat.scrollTop = chat.scrollHeight;
 }
 
+function clearChat(){
+  chat.innerHTML = "";
+  addMsg("Hello 👋 I'm Ultra Smart AI Friend.","bot");
+}
+
 function isMath(text){
   return /^[0-9+\-*/().%\s]+$/.test(text);
 }
@@ -176,6 +174,10 @@ function isMath(text){
 function respond(text){
   const t = text.toLowerCase().trim();
 
+  if(t === "clear"){
+    clearChat();
+    return null;
+  }
   if(t === "hi" || t === "hello"){
     return "Hello 👋 I'm Ultra Smart AI Friend.";
   }
@@ -197,25 +199,23 @@ function respond(text){
   return "Ask me anything — calculations or simple logic.";
 }
 
-sendBtn.onclick = send;
-input.addEventListener("keydown",e=>{
-  if(e.key==="Enter") send();
-});
-
 function send(){
   const text = input.value.trim();
   if(!text) return;
   addMsg(text,"user");
   input.value="";
   setTimeout(()=>{
-    addMsg(respond(text),"bot");
+    const reply = respond(text);
+    if(reply) addMsg(reply,"bot");
   },300);
 }
 
-clearBtn.onclick=()=>{
-  chat.innerHTML="";
-  addMsg("Hello 👋 I'm Ultra Smart AI Friend.","bot");
-};
+sendBtn.onclick = send;
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter") send();
+});
+
+clearBtn.onclick = clearChat;
 
 modeBtn.onclick=()=>{
   document.body.classList.toggle("light");
