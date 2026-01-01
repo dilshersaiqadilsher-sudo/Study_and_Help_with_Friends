@@ -1,124 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultra Smart AI Friend ⚡ Ultimate</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ultra Smart AI Friend — Ultimate</title>
 
 <style>
 :root{
-  --bg:#050b1e;
-  --card:#0b132b;
-  --text:#ffffff;
-  --user:#2563eb;
+  --bg:#050b1a;
+  --card:#0b1225;
+  --user:#2f6bff;
   --bot:#111827;
-  --accent:#22c55e;
+  --text:#ffffff;
+  --muted:#9ca3af;
 }
-.light{
-  --bg:#f4f6fb;
+body.light{
+  --bg:#f3f4f6;
   --card:#ffffff;
-  --text:#0b132b;
-  --user:#3b82f6;
+  --user:#2563eb;
   --bot:#e5e7eb;
-  --accent:#16a34a;
+  --text:#111827;
+  --muted:#374151;
 }
-
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-
+*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto}
 body{
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-  height:100vh;
+  background:radial-gradient(circle at top,var(--bg),#000);
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  color:var(--text);
 }
-
 .app{
-  width:390px;
-  height:92vh;
+  width:380px;
+  height:650px;
   background:var(--card);
   border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
   display:flex;
   flex-direction:column;
   overflow:hidden;
 }
-
 .header{
-  background:linear-gradient(90deg,#2563eb,#38bdf8);
+  padding:14px;
+  background:linear-gradient(135deg,#2563eb,#38bdf8);
+  text-align:center;
   color:#fff;
-  padding:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
 }
-
-.header h2{margin:0;font-size:16px}
-.header small{font-size:11px;opacity:.9}
-
-.header .buttons{
+.header h1{
+  font-size:18px;
+  margin:0;
+}
+.header small{
+  opacity:.9;
+}
+.toolbar{
   display:flex;
   gap:8px;
+  padding:8px;
+  background:var(--card);
 }
-
-.icon-btn{
-  background:rgba(255,255,255,.25);
+.toolbar button{
+  flex:1;
   border:none;
-  border-radius:50%;
-  width:36px;
-  height:36px;
-  font-size:18px;
+  border-radius:10px;
+  padding:8px;
   cursor:pointer;
+  background:#1f2937;
+  color:#fff;
 }
-
+body.light .toolbar button{
+  background:#e5e7eb;
+  color:#111;
+}
 .chat{
   flex:1;
-  padding:12px;
   overflow-y:auto;
+  padding:12px;
 }
-
 .msg{
-  margin-bottom:10px;
+  max-width:80%;
   padding:10px 12px;
   border-radius:14px;
-  max-width:82%;
+  margin-bottom:10px;
   font-size:14px;
   line-height:1.4;
+  word-wrap:break-word;
 }
-
 .user{
   background:var(--user);
   color:#fff;
   margin-left:auto;
 }
-
 .bot{
   background:var(--bot);
   color:var(--text);
 }
-
-.input-area{
+.inputbar{
   display:flex;
   gap:8px;
   padding:10px;
+  border-top:1px solid rgba(255,255,255,.08);
 }
-
-.input-area input{
+body.light .inputbar{
+  border-top:1px solid #e5e7eb;
+}
+.inputbar input{
   flex:1;
   padding:10px 12px;
-  border-radius:20px;
+  border-radius:12px;
   border:none;
   outline:none;
-  font-size:14px;
+  background:#020617;
+  color:#fff;
 }
-
-.input-area button{
+body.light .inputbar input{
+  background:#f3f4f6;
+  color:#111;
+}
+.send{
   width:42px;
-  height:42px;
   border:none;
-  border-radius:50%;
-  background:var(--accent);
+  border-radius:12px;
+  background:#22c55e;
   color:#fff;
   font-size:18px;
   cursor:pointer;
@@ -129,126 +134,96 @@ body{
 <body>
 <div class="app">
   <div class="header">
-    <div>
-      <h2>Ultra Smart AI Friend ⚡ Ultimate</h2>
-      <small id="date"></small>
-    </div>
-    <div class="buttons">
-      <button class="icon-btn" id="themeBtn">🌙</button>
-      <button class="icon-btn" id="micBtn">🎤</button>
-    </div>
+    <h1>Ultra Smart AI Friend ⚡ Ultimate</h1>
+    <small id="date"></small>
+  </div>
+
+  <div class="toolbar">
+    <button id="modeBtn">🌙 Dark mode</button>
+    <button id="clearBtn">🧹 Clear chat</button>
   </div>
 
   <div class="chat" id="chat"></div>
 
-  <div class="input-area">
-    <input id="input" placeholder="Ask anything or type a calculation...">
-    <button onclick="send()">▶</button>
+  <div class="inputbar">
+    <input id="input" placeholder="Ask anything or type a calculation…"/>
+    <button class="send" id="send">▶</button>
   </div>
 </div>
 
 <script>
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
-const themeBtn = document.getElementById("themeBtn");
-const micBtn = document.getElementById("micBtn");
+const sendBtn = document.getElementById("send");
+const clearBtn = document.getElementById("clearBtn");
+const modeBtn = document.getElementById("modeBtn");
 
-document.getElementById("date").innerText = new Date().toDateString();
+document.getElementById("date").textContent =
+  new Date().toDateString();
 
-let memory = JSON.parse(localStorage.getItem("memory") || "[]");
-
-function saveMemory(){
-  localStorage.setItem("memory",JSON.stringify(memory));
-}
-
-function addMsg(text,type){
-  const div=document.createElement("div");
-  div.className="msg "+type;
-  div.textContent=text;
+function addMsg(text, cls){
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  div.textContent = text;
   chat.appendChild(div);
-  chat.scrollTop=chat.scrollHeight;
+  chat.scrollTop = chat.scrollHeight;
 }
 
-function send(){
-  const text=input.value.trim();
-  if(!text) return;
-  input.value="";
-  addMsg(text,"user");
-  memory.push({role:"user",text});
-  handle(text.toLowerCase(),text);
+function isMath(text){
+  return /^[0-9+\-*/().%\s]+$/.test(text);
 }
 
-function handle(cmd,raw){
+function respond(text){
+  const t = text.toLowerCase().trim();
 
-  if(cmd==="clear"||cmd==="clear chat"||cmd==="delete chat"){
-    chat.innerHTML="";
-    memory=[];
-    saveMemory();
-    return;
+  if(t === "hi" || t === "hello"){
+    return "Hello 👋 I'm Ultra Smart AI Friend.";
   }
-
-  if(cmd==="light mode"){setTheme("light");addMsg("Light mode enabled ☀️","bot");return;}
-  if(cmd==="dark mode"){setTheme("dark");addMsg("Dark mode enabled 🌙","bot");return;}
-
-  if(/^[0-9+\-*/().\s]+$/.test(raw)){
-    try{
-      addMsg("🧮 Answer: "+Function("return "+raw)(),"bot");
-    }catch{
-      addMsg("❌ Invalid calculation","bot");
+  if(t === "bye"){
+    return "Goodbye 👋 Your chat is saved.";
+  }
+  if(t.startsWith("what is ")){
+    const q = t.replace("what is ","");
+    if(isMath(q)){
+      try{return "🧮 Answer: " + eval(q);}
+      catch{return "Invalid calculation.";}
     }
-    return;
+    return "I can answer calculations and basic logic right now.";
   }
-
-  if(cmd==="hi"){addMsg("Hello 👋 I’m Ultra Smart AI Friend.","bot");return;}
-  if(cmd==="bye"){addMsg("Goodbye 👋 Your chat is saved.","bot");return;}
-
-  if(cmd.includes("photosynthesis")){
-    addMsg("Photosynthesis is the process by which green plants use sunlight, carbon dioxide, and water to produce glucose and oxygen.","bot");
-    return;
+  if(isMath(t)){
+    try{return "🧮 Answer: " + eval(t);}
+    catch{return "Invalid calculation.";}
   }
-
-  addMsg("I’m learning continuously. Ask me calculations, science, logic, or general knowledge.","bot");
-  memory.push({role:"bot",text:"generic"});
-  saveMemory();
+  return "Ask me anything — calculations or simple logic.";
 }
 
-function setTheme(mode){
-  if(mode==="light"){
-    document.body.classList.add("light");
-    themeBtn.textContent="☀️";
-    localStorage.setItem("theme","light");
-  }else{
-    document.body.classList.remove("light");
-    themeBtn.textContent="🌙";
-    localStorage.setItem("theme","dark");
-  }
-}
-
-themeBtn.onclick=()=>{
-  setTheme(document.body.classList.contains("light")?"dark":"light");
-};
-
-window.onload=()=>{
-  setTheme(localStorage.getItem("theme")||"dark");
-  addMsg("Hello 👋 I’m Ultra Smart AI Friend.","bot");
-};
-
+sendBtn.onclick = send;
 input.addEventListener("keydown",e=>{
   if(e.key==="Enter") send();
 });
 
-/* Voice input */
-if("webkitSpeechRecognition" in window){
-  const rec=new webkitSpeechRecognition();
-  rec.lang="en-US";
-  rec.onresult=e=>{
-    input.value=e.results[0][0].transcript;
-    send();
-  };
-  micBtn.onclick=()=>rec.start();
-}else{
-  micBtn.style.display="none";
+function send(){
+  const text = input.value.trim();
+  if(!text) return;
+  addMsg(text,"user");
+  input.value="";
+  setTimeout(()=>{
+    addMsg(respond(text),"bot");
+  },300);
 }
+
+clearBtn.onclick=()=>{
+  chat.innerHTML="";
+  addMsg("Hello 👋 I'm Ultra Smart AI Friend.","bot");
+};
+
+modeBtn.onclick=()=>{
+  document.body.classList.toggle("light");
+  const light = document.body.classList.contains("light");
+  modeBtn.textContent = light ? "🌞 Light mode" : "🌙 Dark mode";
+};
+
+addMsg("Hello 👋 I'm Ultra Smart AI Friend.","bot");
 </script>
 </body>
 </html>
