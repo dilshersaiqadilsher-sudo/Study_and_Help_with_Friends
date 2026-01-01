@@ -1,11 +1,10 @@
 {
   "name": "Ultra Smart AI Friend",
   "short_name": "Ultra AI",
- "start_url": "/ultra-smart-ai/index.html"
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#020617",
   "theme_color": "#2563eb",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
