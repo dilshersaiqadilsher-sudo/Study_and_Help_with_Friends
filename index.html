@@ -174,36 +174,47 @@ function isMath(text){
 function respond(text){
   const t = text.toLowerCase().trim();
 
-  if(t === "clear"){
+  if(
+    t === "clear" ||
+    t === "clear chat" ||
+    t === "delete" ||
+    t === "delete chat"
+  ){
     clearChat();
     return null;
   }
+
   if(t === "hi" || t === "hello"){
     return "Hello 👋 I'm Ultra Smart AI Friend.";
   }
+
   if(t === "bye"){
     return "Goodbye 👋 Your chat is saved.";
   }
+
   if(t.startsWith("what is ")){
     const q = t.replace("what is ","");
     if(isMath(q)){
-      try{return "🧮 Answer: " + eval(q);}
-      catch{return "Invalid calculation.";}
+      try{ return "🧮 Answer: " + eval(q); }
+      catch{ return "Invalid calculation."; }
     }
-    return "I can answer calculations and basic logic right now.";
   }
+
   if(isMath(t)){
-    try{return "🧮 Answer: " + eval(t);}
-    catch{return "Invalid calculation.";}
+    try{ return "🧮 Answer: " + eval(t); }
+    catch{ return "Invalid calculation."; }
   }
-  return "Ask me anything — calculations or simple logic.";
+
+  return "Ask me anything — calculations, logic, or help.";
 }
 
 function send(){
   const text = input.value.trim();
   if(!text) return;
+
   addMsg(text,"user");
   input.value="";
+
   setTimeout(()=>{
     const reply = respond(text);
     if(reply) addMsg(reply,"bot");
