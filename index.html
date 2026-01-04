@@ -5,6 +5,13 @@
 <title>Study And Help With Friends — Ultra Smart AI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- ✅ PWA REQUIRED (ADDED ONLY) -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b1225">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
 <style>
 :root{
   --bg:#0b1225;
@@ -161,25 +168,18 @@ function solveMath(q){
 /* ================= CHAT ================= */
 function chatAI(q){
   q=q.toLowerCase();
-
   if(q.includes("hi")||q.includes("hello"))
     add("Hello! 😊 How can I help you today?","bot");
-
   else if(q.includes("how are you"))
     add("I am doing great! Thanks for asking 😊","bot");
-
   else if(q.includes("who are you"))
     add("I am your Ultra Smart AI Friend, designed to help, teach, and chat with you.","bot");
-
   else if(q.includes("who made you"))
     add("I was made by a young Muslim developer to help students learn and grow 🌟","bot");
-
   else if(q.includes("what can you do"))
     add("I can chat, solve math, help with studies, and support Islamic learning.","bot");
-
   else if(q.includes("bye"))
     add("Goodbye! 👋 Come back anytime.","bot");
-
   else
     add("That's interesting 🤔 Tell me more!","bot");
 }
@@ -187,22 +187,16 @@ function chatAI(q){
 /* ================= STUDY ================= */
 function study(q){
   q=q.toLowerCase();
-
   if(q.includes("english"))
     add("English is a global language used for communication worldwide.","bot");
-
   else if(q.includes("urdu"))
     add("Urdu is the national language of Pakistan.","bot");
-
   else if(q.includes("science"))
     add("Science studies nature, experiments, and discoveries.","bot");
-
   else if(q.includes("history"))
     add("History studies past events and civilizations.","bot");
-
   else if(q.includes("geography"))
     add("Geography studies Earth, land, climate, and maps.","bot");
-
   else
     add("Please ask a study topic like science, history, geography, English, or Urdu.","bot");
 }
@@ -210,31 +204,24 @@ function study(q){
 /* ================= ISLAMIC MODE ================= */
 function islam(q){
   q=q.toLowerCase();
-
   if(q==="quran"){
     add("📖 Quran is the holy book of Allah.\nType:\n• Surah Fatiha\n• Surah Ikhlas\n• Surah Nas\n• Hifz help","bot");
   }
-
   else if(q.includes("surah fatiha")){
     add("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\n\nالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ\nالرَّحْمَٰنِ الرَّحِيمِ\nمَالِكِ يَوْمِ الدِّينِ\nإِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ\nاهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ\nصِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ","bot");
   }
-
   else if(q.includes("surah ikhlas")){
     add("قُلْ هُوَ اللَّهُ أَحَدٌ\nاللَّهُ الصَّمَدُ\nلَمْ يَلِدْ وَلَمْ يُولَدْ\nوَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ","bot");
   }
-
   else if(q.includes("surah nas")){
     add("قُلْ أَعُوذُ بِرَبِّ النَّاسِ\nمَلِكِ النَّاسِ\nإِلَٰهِ النَّاسِ\nمِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ\nالَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ\nمِنَ الْجِنَّةِ وَالنَّاسِ","bot");
   }
-
   else if(q.includes("allah")){
     add("Allah is One. He has no partner. He is the Most Merciful 🤍","bot");
   }
-
   else if(q.includes("hifz")){
     add("🌟 MashaAllah! May Allah make your Hifz easy and bless your memory 🤲📖","bot");
   }
-
   else{
     add("🕌 Islamic Mode: Type 'Quran' or a Surah name.","bot");
   }
@@ -256,6 +243,13 @@ function logout(){
 }
 
 add("Welcome! Select a mode and start chatting 🚀","bot");
+
+/* ✅ SERVICE WORKER REGISTER (ADDED ONLY) */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js");
+  });
+}
 </script>
 </body>
 </html>
