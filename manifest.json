@@ -1,6 +1,6 @@
 {
-  "name": "Study And Help With Friends",
-  "short_name": "StudyHelp",
+  "name": "StudyBuddy AI",
+  "short_name": "StudyBuddy",
   "description": "An ultra smart AI app for chat, math, study, and Islamic learning.",
   "start_url": "./index.html",
   "display": "standalone",
