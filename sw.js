@@ -1,11 +1,11 @@
 const CACHE_NAME = "ultra-ai-v1";
 
 const FILES_TO_CACHE = [
-  "/Study_and_Help_with_Friends/",
-  "/Study_and_Help_with_Friends/index.html",
-  "/Study_and_Help_with_Friends/manifest.json",
-  "/Study_and_Help_with_Friends/icon-192.png",
-  "/Study_and_Help_with_Friends/icon-512.png"
+  "/StudyBuddy_AI/",
+  "/StudyBuddy_AI/index.html",
+  "/StudyBuddy_AI/manifest.json",
+  "/StudyBuddy_AI/icon-192.png",
+  "/StudyBuddy_AI/icon-512.png"
 ];
 
 self.addEventListener("install", event => {
