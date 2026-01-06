@@ -1,23 +1,21 @@
-const CACHE_NAME = "studybuddy-ai-v1";
+const CACHE = "studybuddy-v1";
 
-const FILES_TO_CACHE = [
-  "/StudyBuddy_AI/",
-  "/StudyBuddy_AI/index.html",
-  "/StudyBuddy_AI/manifest.json",
-  "/StudyBuddy_AI/icon-192.png",
-  "/StudyBuddy_AI/icon-512.png"
-];
-
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+self.addEventListener("install", e => {
+  e.waitUntil(
+    caches.open(CACHE).then(c =>
+      c.addAll([
+        "./",
+        "./index.html",
+        "./manifest.json",
+        "./icon-192.png",
+        "./icon-512.png"
+      ])
+    )
   );
 });
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+self.addEventListener("fetch", e => {
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request))
   );
 });
