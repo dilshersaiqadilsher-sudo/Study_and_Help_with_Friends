@@ -1,12 +1,10 @@
 {
   "name": "StudyBuddy AI",
   "short_name": "StudyBuddy",
-  "description": "AI-powered study assistant for students",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0a1a3f",
-  "theme_color": "#0a1a3f",
-  "orientation": "portrait",
+  "background_color": "#0b1225",
+  "theme_color": "#0b1225",
   "icons": [
     {
       "src": "icon-192.png",
