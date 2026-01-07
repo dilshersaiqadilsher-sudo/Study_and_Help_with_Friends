@@ -5,23 +5,25 @@
 <title>StudyBuddy AI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="./manifest.json">
-<meta name="description" content="StudyBuddy AI helps students learn with chat, math, games, and Islamic knowledge.">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0b1225">
 
-<link rel="icon" href="./icon-192.png">
-<link rel="apple-touch-icon" href="./icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 
 <style>
 :root{
   --bg:#0b1225;
+  --card:#111a33;
   --user:#2563eb;
   --bot:#1f2937;
   --text:#ffffff;
 }
 .light{
   --bg:#f3f4f6;
+  --card:#ffffff;
+  --user:#2563eb;
   --bot:#e5e7eb;
   --text:#000000;
 }
@@ -45,7 +47,7 @@ body{
   display:flex;
   gap:6px;
 }
-.top button,.mode-bar button{
+button{
   flex:1;
   padding:8px;
   border:none;
@@ -78,9 +80,6 @@ body{
   border:none;
 }
 .bottom button{
-  padding:10px;
-  border:none;
-  border-radius:10px;
   background:#22c55e;
 }
 </style>
@@ -92,19 +91,21 @@ body{
 <div class="top">
   <button onclick="toggleTheme()">🌗 Theme</button>
   <button onclick="exportChat()">⬇ Export</button>
+  <button onclick="location.reload()">🚪 Reset</button>
 </div>
 
 <div class="mode-bar">
   <button onclick="setMode('chat')">💬 Chat</button>
   <button onclick="setMode('math')">➗ Math</button>
   <button onclick="setMode('games')">🎮 Games</button>
-  <button onclick="setMode('info')">ℹ️ Info</button>
+  <button onclick="setMode('quiz')">🧠 Quiz</button>
+  <button onclick="setMode('islam')">🕌 Islam</button>
 </div>
 
 <div class="chat" id="chat"></div>
 
 <div class="bottom">
-  <input id="input" placeholder="Ask something..." onkeydown="if(event.key==='Enter')send()">
+  <input id="input" placeholder="Type here..." onkeydown="if(event.key==='Enter')send()">
   <button onclick="send()">▶</button>
 </div>
 
@@ -121,7 +122,7 @@ function add(text,cls){
   d.innerText=text;
   chat.appendChild(d);
   chat.scrollTop=chat.scrollHeight;
-  chatLog.push(text);
+  chatLog.push((cls==="user"?"User: ":"AI: ")+text);
 }
 
 function setMode(m){
@@ -137,54 +138,63 @@ function send(){
   add(t,"user");
 
   if(mode==="math") math(t);
-  else if(mode==="games") games(t);
-  else if(mode==="info") info();
+  else if(mode==="games") games();
+  else if(mode==="quiz") quiz();
+  else if(mode==="islam") islam();
   else chatAI(t);
 }
 
 /* CHAT */
 function chatAI(q){
-  add("You are doing great! Ask me math, games, or info 😊","bot");
+  q=q.toLowerCase();
+  if(q.includes("hi")) add("Hello 😊","bot");
+  else if(q.includes("who made you")) add("Made by a young Muslim developer 🌟","bot");
+  else add("Tell me more 🤔","bot");
 }
 
 /* MATH */
 function math(q){
   try{
+    if(!/^[0-9+\-*/(). ]+$/.test(q)){
+      add("Enter valid math only","bot");return;
+    }
     add("Answer: "+Function("return "+q)(),"bot");
-  }catch{
-    add("Try simple numbers like 2+2","bot");
-  }
+  }catch{add("Error","bot");}
 }
 
 /* GAMES */
-function games(q){
-  const games=[
-    "🎲 Guess a number between 1 and 5",
-    "🧩 Riddle: What has hands but cannot clap?",
-    "🔢 Solve: 5 × 6",
-    "❓ Quiz: Capital of Pakistan?"
+function games(){
+  const g=[
+    "🎲 Guess a number from 1 to 10",
+    "🧠 Riddle: What has keys but no locks?",
+    "🎯 Try mental math: 8×7?"
   ];
-  add(games[Math.floor(Math.random()*games.length)],"bot");
+  add(g[Math.floor(Math.random()*g.length)],"bot");
 }
 
-/* INFO */
-function info(){
-  add(
-`📱 StudyBuddy AI can:
-• Chat with you
-• Solve math
-• Play games
-• Help learning
-• Grow smarter with you
+/* QUIZ */
+function quiz(){
+  const q=[
+    "🧠 Capital of Pakistan?",
+    "🧠 5 daily prayers name?",
+    "🧠 6 × 6 = ?"
+  ];
+  add(q[Math.floor(Math.random()*q.length)],"bot");
+}
 
-Made with love 💚`,
-"bot");
+/* ISLAM */
+function islam(){
+  const i=[
+    "🕌 Allah is One",
+    "📖 Quran is guidance",
+    "🤲 Say: Alhamdulillah",
+    "🕋 Pray 5 times daily"
+  ];
+  add(i[Math.floor(Math.random()*i.length)],"bot");
 }
 
 /* UTIL */
-function toggleTheme(){
-  document.body.classList.toggle("light");
-}
+function toggleTheme(){document.body.classList.toggle("light");}
 function exportChat(){
   const b=new Blob([chatLog.join("\n")],{type:"text/plain"});
   const a=document.createElement("a");
@@ -196,7 +206,7 @@ function exportChat(){
 add("Welcome to StudyBuddy AI 🚀","bot");
 
 /* SERVICE WORKER */
-if ("serviceWorker" in navigator) {
+if("serviceWorker" in navigator){
   navigator.serviceWorker.register("sw.js");
 }
 </script>
