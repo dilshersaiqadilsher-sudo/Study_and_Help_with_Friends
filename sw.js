@@ -1,4 +1,4 @@
-const CACHE_NAME = "studybuddy-v2";
+const CACHE_NAME = "studybuddy-v3";
 
 const FILES = [
   "./",
@@ -30,10 +30,6 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   e.respondWith(
-    fetch(e.request)
-      .then((res) => {
-        return res;
-      })
-      .catch(() => caches.match(e.request))
+    caches.match(e.request).then((r) => r || fetch(e.request))
   );
 });
